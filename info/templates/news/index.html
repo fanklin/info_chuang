@@ -1,0 +1,38 @@
+{% extends 'news/base.html' %}
+{% block title %}首页-创造中心{% endblock title %}
+{% block script %}
+    <script type="text/javascript" src="../../static/news/js/index.js"></script>
+{% endblock script %}
+
+{% block menu %}
+            <ul class="menu fl">
+                {# 遍历显示所有`新闻分类`信息 #}
+                {% for category in categories %}
+                    <li class="{% if category.id == 1 %}active{% endif %}" data-cid="{{ category.id }}"><a href="javascript:;">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+
+
+{% endblock menu %}
+
+{% block content %}
+        <ul class="list_con fl">
+        <div id="pagination" class="page"></div>
+            <script>
+                // 调用父页面的方法改变菜单指示
+                // window.parent.fnChangeMenu(2);
+
+                $(function(){
+                    $("#pagination").pagination({
+                        currentPage: {{ current_page }},
+                        totalPage: {{ total_page }},
+                        callback: function(current) {
+                            // alert('ok!');
+                            location.href = '/user/news?p=' + current;
+                        }
+                    });
+                });
+            </script>
+        </ul>
+
+{% endblock content %}
